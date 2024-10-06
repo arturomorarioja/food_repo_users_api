@@ -124,6 +124,25 @@ def manage_user_favourites(user_id):
             return error_message(), 400
     # Delete a favourite recipe
     elif request.method == 'DELETE':
-        pass
+        recipe_id = request.form.get('recipe_id')
+        if recipe_id is not None:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('''
+                    DELETE FROM user_favourites
+                    WHERE nUserID = ?
+                    AND nRecipeID = ?
+                ''',
+                (user_id, recipe_id)
+            )
+            deleted_rows = cursor.rowcount
+            db.commit()
+            cursor.close()
+            if deleted_rows > 0:
+                return jsonify({'status': 'ok'})
+            else:
+                return error_message('The recipe could not be deleted as favourite'), 500
+        else:
+            return error_message(), 400
     else:
         return error_message('Incorrect HTTP method'), 400
