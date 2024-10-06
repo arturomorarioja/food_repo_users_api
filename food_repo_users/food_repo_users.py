@@ -76,7 +76,18 @@ def validate_login():
 def manage_user_favourites(user_id):
     # Get the list of favourite recipes
     if request.method == 'GET':
-        pass
+        db = get_db()
+        recipes = db.execute(
+            '''
+            SELECT nRecipeID
+            FROM user_favourites
+            WHERE nUserID = ?
+            ''',
+            (user_id,)
+        ).fetchall()
+
+        return jsonify({'recipes': [{'recipe_id': recipe[0]} for recipe in recipes]})
+
     # Add a new favourite recipe
     elif request.method == 'POST':
         recipe_id = request.form.get('recipe_id')
