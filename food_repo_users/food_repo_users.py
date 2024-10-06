@@ -91,34 +91,37 @@ def manage_user_favourites(user_id):
     # Add a new favourite recipe
     elif request.method == 'POST':
         recipe_id = request.form.get('recipe_id')
-        db = get_db()
-        sql = '''
-            SELECT COUNT(*)
-            FROM user_favourites
-            WHERE nUserID = ?
-            AND nRecipeID = ?
-        '''
-        recipe_count = db.execute(sql, (user_id, recipe_id)).fetchone()
-        if recipe_count[0] == 0:
-            cursor = db.cursor()
-            cursor.execute(
-                '''
-                    INSERT INTO user_favourites
-                        (nUserID, nRecipeID)
-                    VALUES
-                        (?, ?)
-                ''',
-                (user_id, recipe_id)
-            )
-            affected_rows = cursor.rowcount
-            cursor.close()
-            db.commit()
-            if affected_rows > 0:
-                return jsonify({'status': 'ok'})
+        if recipe_id is not None:
+            db = get_db()
+            sql = '''
+                SELECT COUNT(*)
+                FROM user_favourites
+                WHERE nUserID = ?
+                AND nRecipeID = ?
+            '''
+            recipe_count = db.execute(sql, (user_id, recipe_id)).fetchone()
+            if recipe_count[0] == 0:
+                cursor = db.cursor()
+                cursor.execute(
+                    '''
+                        INSERT INTO user_favourites
+                            (nUserID, nRecipeID)
+                        VALUES
+                            (?, ?)
+                    ''',
+                    (user_id, recipe_id)
+                )
+                affected_rows = cursor.rowcount
+                cursor.close()
+                db.commit()
+                if affected_rows > 0:
+                    return jsonify({'status': 'ok'})
+                else:
+                    return error_message('The recipe could not be added as favourite'), 500
             else:
-                return error_message('The recipe could not be added as favourite'), 500
+                return error_message('The user has already favourited this recipe'), 400
         else:
-            return error_message('The user has already favourited this recipe'), 400
+            return error_message(), 400
     # Delete a favourite recipe
     elif request.method == 'DELETE':
         pass
