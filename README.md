@@ -39,7 +39,7 @@ python -m flask --app food_repo_users init-db
 ## Running the API
 Within (venv), run:
 ```
-python -m flask --app customers run --port 8001 --debug
+python -m flask --app food_repo_users run --port 8001 --debug
 ```
 The endpoints will be available at `http://localhost:8001`.
 
