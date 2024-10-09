@@ -23,7 +23,7 @@ python -m venv venv
 
 2. Activate the virtual environment.
 - Windows cmd: `.\venv\Scripts\activate`
-- Windows Powershell: `.\venv\Scripts\Activate.psl`
+- Windows Powershell: `.\venv\Scripts\Activate`
 - Linux and Mac: `source venv/bin/activate`
 
 3. Install dependencies:
