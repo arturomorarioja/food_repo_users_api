@@ -7,12 +7,14 @@ __date__ = 'October 2024'
 import os
 from dotenv import load_dotenv
 from flask import Flask
+from flask_cors import CORS
 from food_repo_users import food_repo_users, database
 
 load_dotenv()
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
     app.config.from_prefixed_env()
 
     database.init_app(app)
