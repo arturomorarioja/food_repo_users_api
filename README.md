@@ -11,7 +11,59 @@ POST parameters are sent as form-data.
 |POST|/validation|email, password|
 |GET|/users/<user_id>/favourites||
 |POST|/users/<user_id>/favourites|recipe_id|
-|DELETE|/users/<user_id>/favourites/recipe_id||
+|DELETE|/users/<user_id>/favourites|recipe_id|
+
+Return values:
+
+- POST /users
+```json
+{
+    "user_id": <value>
+}
+```
+```json
+{
+    "error": "Incorrect parameters"
+}
+```
+- POST /validation
+```json
+{
+    "user_id": <value>
+}
+```
+```json
+{
+    "error": "Incorrect password"
+}
+```
+```json
+{
+    "error": "The user does not exist"
+}
+```
+- GET /users/<user_id>/favourites
+```json
+{
+    "recipes": [
+        {
+            "recipe_id": <value>
+        }
+    ]
+}
+```
+- POST /users/<user_id>/favourites
+```json
+{
+    "status": "ok"
+}
+```
+- DELETE /users/<user_id>/favourites
+```json
+{
+    "status": "ok"
+}
+```
 
 ## Installation
 Python 3.4 or higher required.
